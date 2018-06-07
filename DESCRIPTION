@@ -1,0 +1,21 @@
+Package: sessiondiverge
+Title: R Session Divergence
+Version: 0.0.0.9000
+Authors@R: c(person(given = "Shinya",
+                                     family = "Uryu",
+                                     email = "suika1127@gmail.com",
+                                     role  = c("aut", "cre"),
+                                     comment = c(ORCID = "0000-0002-0493-6186")))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
+ByteCompile: true
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.0.1

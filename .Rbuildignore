@@ -1,0 +1,7 @@
+^sessiondiverge\.Rproj$
+^\.Rproj\.user$
+^Dockerfile$
+^docker-compose\.yml$
+^\.Rprofile$
+^LICENSE\.md$
+^README\.Rmd$
