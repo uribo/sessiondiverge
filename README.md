@@ -61,7 +61,7 @@ write_session("my_session.Rdata")
 Restart *R*.
 
 ``` r
-sessiondiverge::rea_session("my_session.Rdata")
+sessiondiverge::read_session("my_session.Rdata")
 
 p + theme_bw() # OK
 ```
