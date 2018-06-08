@@ -26,9 +26,11 @@ NULL
 #' @export
 write_session <- function(file) {
 
+  # nolint start
   .loaded_pkgs <-
     unique(c(sessionInfo()$basePkgs,
              names(sessionInfo()$otherPkgs)))
+  # nolint end
 
   assign(x = ".loaded_pkgs",
          value = .loaded_pkgs,
@@ -44,9 +46,9 @@ read_session <- function(file) {
 
   load(file = file, envir = .GlobalEnv)
   eval(expr = expression(invisible(lapply(.loaded_pkgs,
-                                          library,
-                                          character.only = TRUE))),
-       envir = .GlobalEnv)
+                                            library,
+                                            character.only = TRUE))),
+         envir = .GlobalEnv)
 
   rm(.loaded_pkgs, envir = .GlobalEnv)
 }
