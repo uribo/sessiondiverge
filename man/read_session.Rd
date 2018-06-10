@@ -8,12 +8,14 @@
 \usage{
 write_session(file)
 
-read_session(file)
+read_session(file, pkgs = TRUE)
 }
 \arguments{
 \item{file}{a (readable binary-mode) \link{connection} or a character string
     giving the name of the file to load (when \link{tilde expansion}
     is done).}
+
+\item{pkgs}{logical. If \emph{FALSE}, load only \R{} objects.}
 }
 \description{
 Write and Reload R Session

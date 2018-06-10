@@ -1,9 +1,10 @@
 #' Write and Reload \R{} Session
 #'
-#' @description Write and Reload R Session
+#' @description Write and Reload \R{} Session
 #' include library attach conditions.
 #'
 #' @inheritParams base::load
+#' @param pkgs logical. If *FALSE*, load only \R{} objects.
 #' @importFrom utils sessionInfo
 #' @name read_session
 #' @examples
@@ -40,15 +41,18 @@ write_session <- function(file) {
 
 #' @rdname read_session
 #' @export
-read_session <- function(file) {
+read_session <- function(file, pkgs = TRUE) {
 
   .loaded_pkgs <- NULL
 
   load(file = file, envir = .GlobalEnv)
-  eval(expr = expression(invisible(lapply(.loaded_pkgs,
+
+  if (pkgs == TRUE) {
+    eval(expr = expression(invisible(lapply(.loaded_pkgs,
                                             library,
                                             character.only = TRUE))),
          envir = .GlobalEnv)
+  }
 
   rm(.loaded_pkgs, envir = .GlobalEnv)
 }
