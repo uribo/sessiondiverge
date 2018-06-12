@@ -8,7 +8,7 @@
 \usage{
 write_session(file)
 
-read_session(file, pkgs = TRUE)
+read_session(file, pkgs = TRUE, pickup = NULL)
 }
 \arguments{
 \item{file}{a (readable binary-mode) \link{connection} or a character string
@@ -16,9 +16,12 @@ read_session(file, pkgs = TRUE)
     is done).}
 
 \item{pkgs}{logical. If \emph{FALSE}, load only \R{} objects.}
+
+\item{pickup}{character vector or \emph{NULL}. If a given variable exists,
+only that variable is read into the workspace.}
 }
 \description{
-Write and Reload R Session
+Write and Reload \R{} Session
 include library attach conditions.
 }
 \examples{

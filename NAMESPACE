@@ -2,4 +2,7 @@
 
 export(read_session)
 export(write_session)
+importFrom(purrr,invoke)
+importFrom(rlang,expr)
+importFrom(rlang,sym)
 importFrom(utils,sessionInfo)

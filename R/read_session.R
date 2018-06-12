@@ -5,6 +5,10 @@
 #'
 #' @inheritParams base::load
 #' @param pkgs logical. If *FALSE*, load only \R{} objects.
+#' @param pickup character vector or *NULL*. If a given variable exists,
+#' only that variable is read into the workspace.
+#' @importFrom purrr invoke
+#' @importFrom rlang expr sym
 #' @importFrom utils sessionInfo
 #' @name read_session
 #' @examples
@@ -27,11 +31,9 @@ NULL
 #' @export
 write_session <- function(file) {
 
-  # nolint start
   .loaded_pkgs <-
     unique(c(sessionInfo()$basePkgs,
              names(sessionInfo()$otherPkgs)))
-  # nolint end
 
   assign(x = ".loaded_pkgs",
          value = .loaded_pkgs,
@@ -41,17 +43,35 @@ write_session <- function(file) {
 
 #' @rdname read_session
 #' @export
-read_session <- function(file, pkgs = TRUE) {
+read_session <- function(file, pkgs = TRUE, pickup = NULL) {
 
-  load(file = file, envir = parent.frame())
-  .loaded_pkgs <- get(".loaded_pkgs")
+  # load(file = file)
 
-  if (pkgs == TRUE) {
-    eval(expr = expression(invisible(lapply(.loaded_pkgs,
-                                            library,
-                                            character.only = TRUE))),
-         envir = parent.frame())
+  objs <-
+    load(file = file)
+
+  if (!is.null(pickup)) {
+    objs <-
+      objs[objs %in% c(pickup, ".loaded_pkgs")]
   }
 
+  for (x in 1:length(objs)) {
+    purrr::invoke(assign,
+                  x = objs[x],
+                  value = eval(expr = rlang::expr(!! rlang::sym(objs[x]))),
+                  pos = parent.frame())
+  }
+
+  if (pkgs == TRUE) {
+    .loaded_pkgs <-
+      get(".loaded_pkgs")
+
+    eval(expr = expression(
+      invisible(
+        lapply(.loaded_pkgs,
+               library,
+               character.only = TRUE))),
+      envir = parent.frame())
+  }
   rm(.loaded_pkgs, envir = parent.frame())
 }
