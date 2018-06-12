@@ -35,7 +35,7 @@ write_session <- function(file) {
 
   assign(x = ".loaded_pkgs",
          value = .loaded_pkgs,
-         pos = .GlobalEnv)
+         pos = parent.frame())
   save.image(file = file)
 }
 
@@ -43,16 +43,15 @@ write_session <- function(file) {
 #' @export
 read_session <- function(file, pkgs = TRUE) {
 
-  .loaded_pkgs <- NULL
-
-  load(file = file, envir = .GlobalEnv)
+  load(file = file, envir = parent.frame())
+  .loaded_pkgs <- get(".loaded_pkgs")
 
   if (pkgs == TRUE) {
     eval(expr = expression(invisible(lapply(.loaded_pkgs,
                                             library,
                                             character.only = TRUE))),
-         envir = .GlobalEnv)
+         envir = parent.frame())
   }
 
-  rm(.loaded_pkgs, envir = .GlobalEnv)
+  rm(.loaded_pkgs, envir = parent.frame())
 }
